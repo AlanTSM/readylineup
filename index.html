@@ -7,6 +7,32 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
     <style>
+        /* Estilos de scrollbar */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #2d3748;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #4299e1;
+            border-radius: 5px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #3182ce;
+        }
+
+        /* Para Firefox */
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #4299e1 #2d3748;
+        }
+
         body {
             background-color: #1a202c;
             color: #e2e8f0;
@@ -73,6 +99,8 @@
             border-radius: 0.25rem 0.25rem 0 0;
             cursor: pointer;
             position: relative;
+            display: flex;
+            align-items: center;
         }
         .tab-button.active {
             background-color: #2d3748;
@@ -116,6 +144,7 @@
             cursor: pointer;
             opacity: 0;
             transition: opacity 0.3s;
+            z-index: 100;
         }
         #scrollToTop.show {
             opacity: 1;
@@ -422,7 +451,7 @@
         <div id="step2" class="step-container">
             <div class="bg-white rounded-lg custom-shadow p-6 mb-6 relative">
                 <div class="flex justify-between items-center mb-2">
-                    <label class="text-gray-700 text-sm font-bold">Cargar archivos de ALINEACIONES enviadas (.txt)</label>
+                    <label class="text-gray-700 text-sm font-bold">Cargar archivos de ALINEACIONES enviadas (.txt) (IMPORTANTE cargarlas todas a la vez)</label>
                     <span id="contadorAlineaciones" class="text-blue-500 text-lg font-bold pr-10">0 alineaciones cargadas</span>
                 </div>
                 
@@ -472,12 +501,21 @@
                     
                     <div class="flex items-center mb-4">
                         <button class="tab-button mr-2" id="ausenciasTab" onclick="showTab('ausencias')">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 12H6M15 19l-3-3-3 3m3-14l-3 3 3 3" />
+                            </svg>
                             Ausencias
                         </button>
                         <button class="tab-button mr-2" id="noEnviadasTab" onclick="showTab('noEnviadas')">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                             No enviadas
                         </button>
                         <button class="tab-button mr-2" id="mensajesPrivadosTab" onclick="showMensajesPrivadosPopup()">
+                            <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
                             Enviadas por Mensaje Privado
                         </button>
                     </div>
@@ -521,8 +559,8 @@
                         </div>
                     </div>
                     
-                    <div id="dropboxSection" class="hidden">
-                        <div class="flex justify-center items-center mb-4">
+                    <div id="dropboxSection" class="mt-6">
+                        <div id="incluirPlantillasContainer" class="flex justify-center items-center mb-4">
                             <input type="checkbox" id="incluirPlantillas" class="h-5 w-5 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500" checked />
                             <label for="incluirPlantillas" class="ml-2 text-blue-400 hover:text-blue-300">Incluir plantillas actuales de Dropbox en la descarga</label>
                         </div>
@@ -540,7 +578,10 @@
                     
                     <!-- Mover el enlace "Spoilers para el foro" aquí -->
                     <div class="mt-6 text-center">
-                        <a href="https://www.tusoccermanager.com/h98-spoilerforforum-html" target="_blank" class="text-blue-400 hover:text-blue-300 no-underline">
+                        <a href="https://www.tusoccermanager.com/h98-spoilerforforum-html" target="_blank" class="text-blue-400 hover:text-blue-300 no-underline flex items-center justify-center">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                            </svg>
                             Spoilers para el foro
                         </a>
                     </div>
@@ -569,7 +610,12 @@
             </button>
             
             <h2 class="text-xl font-bold mb-4 text-center">Alineaciones enviadas por mensaje privado</h2>
-            <a href="#" onclick="window.open('https://www.tusoccermanager.com/privmsg?folder=inbox', '_blank')" class="text-blue-400 hover:text-blue-300 no-underline block text-center mb-4">Ir a la bandeja de entrada</a>
+            <a href="#" onclick="window.open('https://www.tusoccermanager.com/privmsg?folder=inbox', '_blank')" class="text-blue-400 hover:text-blue-300 no-underline block text-center mb-4 flex items-center justify-center">
+                <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                </svg>
+                Ir a la bandeja de entrada
+            </a>
             
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
                 <textarea id="mpAlineacion1" class="w-full h-32 bg-gray-700 text-white p-2 rounded" placeholder="Pegar alineación. El sistema reconocerá el equipo."></textarea>
@@ -791,10 +837,13 @@
                 showTab(currentTab);
                 // Mostrar/ocultar la sección de Dropbox según corresponda
                 const dropboxSection = document.getElementById('dropboxSection');
+                const incluirPlantillasContainer = document.getElementById('incluirPlantillasContainer');
+                dropboxSection.classList.remove('hidden');
+                
                 if (plantillasDesdeDropbox) {
-                    dropboxSection.classList.remove('hidden');
+                    incluirPlantillasContainer.classList.remove('hidden');
                 } else {
-                    dropboxSection.classList.add('hidden');
+                    incluirPlantillasContainer.classList.add('hidden');
                 }
             }
         }
@@ -1064,8 +1113,30 @@
             return gks.reduce((max, j) => j.min > max.min ? j : max, gks[0]);
         }
 
-        function validarAlineacion(alineacion, jugadoresPlantilla) {
+        // NUEVA FUNCIÓN: Validación de composición de titulares (de la página de referencia)
+        function validarComposicionTitulares(titulares) {
+            const conteo = { GK: 0, DF: 0, DM: 0, MF: 0, AM: 0, FW: 0 };
+            titulares.forEach(j => conteo[j.posicion]++);
             const errores = [];
+            
+            // Mínimos
+            if (conteo.DF < 2) errores.push('Debe haber al menos 2 defensores (DF) en la alineación titular.');
+            
+            // Máximos
+            if (conteo.DF > 6) errores.push('No puede haber más de 6 defensores (DF) en la alineación titular.');
+            if (conteo.DM > 4) errores.push('No puede haber más de 4 mediocampistas defensivos (DM) en la alineación titular.');
+            if (conteo.MF > 6) errores.push('No puede haber más de 6 mediocampistas (MF) en la alineación titular.');
+            if (conteo.AM > 4) errores.push('No puede haber más de 4 mediocampistas ofensivos (AM) en la alineación titular.');
+            if (conteo.FW > 6) errores.push('No puede haber más de 6 delanteros (FW) en la alineación titular.');
+            
+            return errores;
+        }
+
+        // FUNCIÓN ACTUALIZADA: Validación de alineación (idéntica a la página de referencia)
+        function validarAlineacion(alineacion, jugadoresPlantilla, nombreEquipo) {
+            const errores = [];
+            let jugadoresNoEncontrados = 0;
+
             const lineasAlineacion = alineacion.split('\n').map(l => l.trim());
             const jugadoresEnAlineacion = new Set();
             const posicionesValidas = ['GK', 'DF', 'DM', 'MF', 'AM', 'FW'];
@@ -1083,6 +1154,11 @@
             const abreviacion = lineasAlineacion[0];
             if (!abreviacion.match(/^[A-Za-z]{3}$/)) {
                 errores.push('La abreviación del equipo debe contener exactamente 3 letras');
+            } else if (nombreEquipo) {
+                const abreviacionEsperada = abreviacionMap[nombreEquipo];
+                if (abreviacionEsperada && abreviacion.toUpperCase() !== abreviacionEsperada) {
+                    errores.push(`La abreviación del equipo debería ser "${abreviacionEsperada}" para la plantilla seleccionada`);
+                }
             }
 
             const tactica = lineasAlineacion[1];
@@ -1096,8 +1172,64 @@
 
             const tacticRegex = new RegExp(`^TACTIC\\s+[ACELNPDT]\\s+IF\\s+${conditionPattern}(\\s+${conditionPattern})*$`);
             const subRegex = new RegExp(`^SUB\\s+([1-9]|1[0-6])\\s+([1-9]|1[0-6])\\s+(GK|DF|DM|MF|AM|FW)\\s+IF\\s+${conditionPattern}(\\s+${conditionPattern})*$`);
+            const subNewRegex = new RegExp(`^SUB\\s+(GK|DF|DM|MF|AM|FW)\\s+(1[2-6])\\s+(GK|DF|DM|MF|AM|FW)\\s+IF\\s+(INJURED|YELLOW|RED)\\s+(GK|DF|DM|MF|AM|FW)$`);
             const changePosRegex = new RegExp(`^CHANGEPOS\\s+([1-9]|1[0-6])\\s+(GK|DF|DM|MF|AM|FW)\\s+IF\\s+${conditionPattern}(\\s+${conditionPattern})*$`);
-            const changeAggRegex = new RegExp(`^CHANGEAGG\\s+([1-9]|1\\d|20)\\s+IF\\s+${conditionPattern}(\\s+${conditionPattern})*$`);
+            const changeAggRegex = new RegExp(`^CHANGEAGG\\s+([1-9]\\d|20)\\s+IF\\s+${conditionPattern}(\\s+${conditionPattern})*$`);
+
+            const targets = {
+                INJURED: {partial: 4, letters: 'INJURED'},
+                YELLOW: {partial: 4, letters: 'YELLOW'},
+                RED: {partial: 2, letters: 'RED'},
+                SUB: {partial: 2, letters: 'SUB'},
+                CHANGEPOS: {partial: 7, letters: 'CHANGEPOS'},
+                CHANGEAGG: {partial: 7, letters: 'CHANGEAGG'},
+                SHOTS: {partial: 3, letters: 'SHOTS'},
+                SCORE: {partial: 3, letters: 'SCORE'},
+                TACTIC: {partial: 4, letters: 'TACTIC'}
+            };
+
+            function getSuggestionsForWord(word) {
+                let sugg = [];
+                const wordSorted = word.split('').sort().join('');
+                for (let [t, d] of Object.entries(targets)) {
+                    const tSorted = t.split('').sort().join('');
+                    if (word.length === t.length && wordSorted === tSorted) sugg.push(t);
+                }
+                const changeSorted = 'CHANGE'.split('').sort().join('');
+                if (word.length === 6 && wordSorted === changeSorted) {
+                    sugg.push('CHANGEPOS');
+                    sugg.push('CHANGEAGG');
+                }
+                for (let [t, d] of Object.entries(targets)) {
+                    const wordSet = new Set(word.split(''));
+                    const tSet = new Set(d.letters.split(''));
+                    const inter = new Set([...wordSet].filter(x => tSet.has(x)));
+                    if (inter.size >= d.partial && !sugg.includes(t)) sugg.push(t);
+                }
+                return sugg;
+            }
+
+            function getLineSuggestions(trimmed) {
+                const words = trimmed.split(/\s+/);
+                let suggestions = [];
+                let replacements = {};
+                for (let word of words) {
+                    if (/^[A-Z]+$/.test(word) && word.length > 1) {
+                        const ws = getSuggestionsForWord(word);
+                        if (ws.length > 0) {
+                            const best = ws[0];
+                            if (best !== word) {
+                                suggestions.push(`"${word}" -> "${best}"`);
+                                replacements[word] = best;
+                            }
+                        }
+                    }
+                }
+                const corrected = words.map(w => replacements[w] || w).join(' ');
+                const isValid = tacticRegex.test(corrected) || subRegex.test(corrected) || subNewRegex.test(corrected) || changePosRegex.test(corrected) || changeAggRegex.test(corrected);
+                if (isValid && suggestions.length > 0) return corrected;
+                return '';
+            }
 
             let titulares = [];
             let suplentes = [];
@@ -1105,22 +1237,17 @@
             let commands = [];
             let hasInjuryOrSanction = false;
             let hasPositionStuckError = false;
-            let hasNonExistentPlayer = false;
             let jugadoresRepetidos = [];
             let jugadoresLesionados = [];
             let jugadoresSancionados = [];
 
             for (let i = 3; i < lineasAlineacion.length; i++) {
                 const linea = lineasAlineacion[i];
-
                 if (linea === '') {
                     procesandoTitulares = false;
                     continue;
                 }
-
-                if (linea.startsWith('PK') || linea.startsWith('AGG') || 
-                    linea.startsWith('SUB') || linea.startsWith('TACTIC') || 
-                    linea.startsWith('CHANGEPOS') || linea.startsWith('CHANGEAGG')) {
+                if (linea.startsWith('PK') || linea.startsWith('AGG') || linea.startsWith('SUB') || linea.startsWith('TACTIC') || linea.startsWith('CHANGEPOS') || linea.startsWith('CHANGEAGG')) {
                     commands.push(linea);
                     continue;
                 }
@@ -1128,7 +1255,7 @@
                 let partes = linea.split(/\s+/);
                 let posicion = partes[0];
                 let nombre = partes.slice(1).join(' ');
-                
+
                 if (partes.length === 1 && linea.length > 2) {
                     for (const pos of posicionesValidas) {
                         if (linea.startsWith(pos) && linea.length > pos.length) {
@@ -1158,21 +1285,17 @@
 
                 const jugador = jugadoresPlantilla.get(nombreToUse);
                 const playerExists = jugador !== undefined;
+
                 if (!playerExists && !isNameCorrected && !hasPositionStuckError) {
+                    jugadoresNoEncontrados++;
                     errores.push(`El jugador ${nombre} no existe en la plantilla`);
-                    hasNonExistentPlayer = true;
-                    
                     const jugadorSugerido = encontrarJugadorSimilar(nombreToUse, jugadoresPlantilla);
                     if (jugadorSugerido) {
                         const datos = jugadoresPlantilla.get(jugadorSugerido);
                         let extra = '';
-                        if (datos.lesionado && datos.sancionado) {
-                            extra = ' Pero recuerda que está lesionado y sancionado.';
-                        } else if (datos.lesionado) {
-                            extra = ' Pero recuerda que está lesionado.';
-                        } else if (datos.sancionado) {
-                            extra = ' Pero recuerda que está sancionado.';
-                        }
+                        if (datos.lesionado && datos.sancionado) extra = ' Pero recuerda que está lesionado y sancionado.';
+                        else if (datos.lesionado) extra = ' Pero recuerda que está lesionado.';
+                        else if (datos.sancionado) extra = ' Pero recuerda que está sancionado.';
                         errores.push(`<span class="text-black">¿Quizás quisiste decir: ${jugadorSugerido}?${extra}</span>`);
                     }
                 }
@@ -1197,147 +1320,78 @@
                     jugadoresEnAlineacion.add(nombreToUse);
                 }
 
-                if (procesandoTitulares) {
-                    titulares.push({ posicion, nombre: nombreToUse });
-                } else {
-                    suplentes.push({ posicion, nombre: nombreToUse });
-                }
+                if (procesandoTitulares) titulares.push({ posicion, nombre: nombreToUse });
+                else suplentes.push({ posicion, nombre: nombreToUse });
+            }
+
+            // Detección de muchos jugadores no encontrados
+            if (jugadoresNoEncontrados > 5) {
+                return {
+                    errores: [`Hay muchos jugadores que el sistema no pudo identificar. ¿Seguro que la plantilla y la alineación corresponden al mismo equipo?`],
+                    jugadoresRepetidos,
+                    jugadoresLesionados,
+                    jugadoresSancionados
+                };
             }
 
             const totalTitulares = titulares.length;
             const totalSuplentes = suplentes.length;
             const totalPlayers = totalTitulares + totalSuplentes;
 
-            if (!hasPositionStuckError && !hasNonExistentPlayer) {
+            if (!hasPositionStuckError && jugadoresNoEncontrados <= 5) {
                 if (totalTitulares > 11) {
                     const sobra = totalTitulares - 11;
                     errores.push(`Sobra${sobra > 1 ? 'n' : ''} ${sobra} jugador${sobra > 1 ? 'es' : ''} en la alineación de titulares`);
                 }
-
                 if (totalSuplentes > 5) {
                     const sobra = totalSuplentes - 5;
                     errores.push(`Sobra${sobra > 1 ? 'n' : ''} ${sobra} jugador${sobra > 1 ? 'es' : ''} en la alineación de suplentes`);
                 }
-
                 if (totalPlayers < 16 && !hasInjuryOrSanction) {
                     const missing = 16 - totalPlayers;
-                    const mensaje = missing === 1 ? 
-                        `Falta 1 jugador para completar la alineación.` : 
-                        `Faltan ${missing} jugadores para completar la alineación.`;
+                    const mensaje = missing === 1 ? `Falta 1 jugador para completar la alineación.` : `Faltan ${missing} jugadores para completar la alineación.`;
                     errores.push(mensaje);
                 }
             }
 
             if (totalTitulares === 11) {
-                if (titulares[0].posicion !== 'GK') {
-                    errores.push('El primer titular debe ser un portero (GK).');
-                }
+                if (titulares[0].posicion !== 'GK') errores.push('El primer titular debe ser un portero (GK).');
                 const gkTitularesCount = titulares.filter(j => j.posicion === 'GK').length;
-                if (gkTitularesCount > 1) {
-                    errores.push('No puede haber más de un portero (GK) entre los titulares.');
-                }
+                if (gkTitularesCount > 1) errores.push('No puede haber más de un portero (GK) entre los titulares.');
+                
+                // Validar composición de titulares
+                const erroresComposicion = validarComposicionTitulares(titulares);
+                errores.push(...erroresComposicion);
             }
             if (totalSuplentes === 5) {
-                if (suplentes[0].posicion !== 'GK') {
-                    errores.push('El primer suplente debe ser un portero (GK).');
-                }
-                const gkSuplentesCount = suplentes.filter(j => j.posicion === 'GK').length;
-                if (gkSuplentesCount > 1) {
-                    errores.push('No puede haber más de un portero (GK) entre los suplentes.');
-                }
-            }
-
-            // Verificar portero titular si la opción está activada
-            if (noPorterosTitulares && titulares.length > 0 && titulares[0].posicion === 'GK') {
-                const titularGK = getTitularGK(jugadoresPlantilla);
-                if (titularGK && titulares[0].nombre === titularGK.nombre) {
-                    errores.push('No se permite alinear al portero titular en Copa TSM.');
-                }
-            }
-
-            const targets = {
-                INJURED: {partial: 4, letters: 'INJURED'},
-                YELLOW: {partial: 4, letters: 'YELLOW'},
-                RED: {partial: 2, letters: 'RED'},
-                SUB: {partial: 2, letters: 'SUB'},
-                CHANGEPOS: {partial: 7, letters: 'CHANGEPOS'},
-                CHANGEAGG: {partial: 7, letters: 'CHANGEAGG'},
-                SHOTS: {partial: 3, letters: 'SHOTS'},
-                SCORE: {partial: 3, letters: 'SCORE'},
-                TACTIC: {partial: 4, letters: 'TACTIC'}
-            };
-
-            function getSuggestionsForWord(word) {
-                let sugg = [];
-                const wordSorted = word.split('').sort().join('');
-
-                for (let [t, d] of Object.entries(targets)) {
-                    const tSorted = t.split('').sort().join('');
-                    if (word.length === t.length && wordSorted === tSorted) {
-                        sugg.push(t);
-                    }
-                }
-
-                const changeSorted = 'CHANGE'.split('').sort().join('');
-                if (word.length === 6 && wordSorted === changeSorted) {
-                    sugg.push('CHANGEPOS');
-                    sugg.push('CHANGEAGG');
-                }
-
-                for (let [t, d] of Object.entries(targets)) {
-                    const wordSet = new Set(word.split(''));
-                    const tSet = new Set(d.letters.split(''));
-                    const inter = new Set([...wordSet].filter(x => tSet.has(x)));
-                    if (inter.size >= d.partial) {
-                        if (!sugg.includes(t)) {
-                            sugg.push(t);
-                        }
-                    }
-                }
-
-                return sugg;
-            }
-
-            function getLineSuggestions(trimmed) {
-                const words = trimmed.split(/\s+/);
-                let suggestions = [];
-                let replacements = {};
-                for (let word of words) {
-                    if (/^[A-Z]+$/.test(word) && word.length > 1) {
-                        const ws = getSuggestionsForWord(word);
-                        if (ws.length > 0) {
-                            const best = ws[0];
-                            if (best !== word) {
-                                suggestions.push(`"${word}" -> "${best}"`);
-                                replacements[word] = best;
-                            }
-                        }
-                    }
-                }
-                const corrected = words.map(w => replacements[w] || w).join(' ');
-                const isValid = tacticRegex.test(corrected) || subRegex.test(corrected) || changePosRegex.test(corrected) || changeAggRegex.test(corrected);
-                if (isValid && suggestions.length > 0) {
-                    return corrected;
-                } else {
-                    return '';
-                }
+                // Se eliminó la restricción de que el primer suplente debe ser GK y la restricción de máximo un GK entre los suplentes.
             }
 
             let hasPKCommand = false;
-            
+
             commands.forEach((linea) => {
                 const trimmed = linea.trim();
                 if (trimmed.startsWith('PK:')) {
                     hasPKCommand = true;
-                    if ((totalPlayers >= 16 || hasInjuryOrSanction) && !hasPositionStuckError && !hasNonExistentPlayer) {
-                        const jugadorPK = trimmed.substring(3).trim();
+                    
+                    // Validar que después de "PK:" haya un espacio
+                    if (trimmed.length <= 3 || trimmed[3] !== ' ') {
+                        errores.push('Después de "PK:" debe haber un espacio en blanco antes del nombre del lanzador.');
+                        return;
+                    }
+                    
+                    if ((totalPlayers >= 16 || hasInjuryOrSanction) && !hasPositionStuckError && jugadoresNoEncontrados <= 5) {
+                        const jugadorPK = trimmed.substring(4).trim(); // Saltar "PK: "
+                        let pkOriginal = jugadorPK;
                         let pkCorrected = jugadorPK;
+                        let isPkCorrected = false;
                         if (jugadorPK.includes(' ') && !jugadorPK.includes('_')) {
+                            isPkCorrected = true;
                             pkCorrected = jugadorPK.replace(/ /g, '_');
                             errores.push(`Al nombre del lanzador de penaltis "${jugadorPK}" le falta un guión bajo. Sugerencia: "${pkCorrected}"`);
                         }
                         if (!titulares.some(j => j.nombre === pkCorrected)) {
-                            errores.push(`El lanzador de penaltis (${jugadorPK}) debe ser uno de los jugadores titulares`);
+                            errores.push(`El lanzador de penaltis (${pkOriginal}) debe ser uno de los jugadores titulares`);
                         }
                     }
                     return;
@@ -1381,65 +1435,85 @@
                     if (letStr.length !== 1 || !'ACELNPDT'.includes(letStr)) {
                         paramErrors.push(`Letra de táctica "${letStr}" inválida (debe ser A, C, E, L, N, P, D o T)`);
                     }
-                } else if (subRegex.test(trimmed)) {
-                    type = 'sustitución';
-                    regexValid = true;
-                    const outNum = parseInt(parts[1]);
-                    const inNum = parseInt(parts[2]);
-                    const pos = parts[3];
-                    if (isNaN(outNum) || outNum < 1 || outNum > 16) {
-                        paramErrors.push(`Jugador saliente "${parts[1]}" inválido (debe ser 1-16)`);
-                    }
-                    if (isNaN(inNum) || inNum < 12 || inNum > 16) {
-                        paramErrors.push(`Jugador entrante "${parts[2]}" inválido (debe ser 12-16)`);
-                    }
-                    if (outNum === inNum) {
-                        paramErrors.push('Los valores de salida y entrada no pueden coincidir en la sustitución');
-                    }
-                    if (!posicionesValidas.includes(pos)) {
-                        paramErrors.push(`Posición "${pos}" inválida (debe ser GK, DF, DM, MF, AM o FW)`);
-                    }
-                    if (pos === 'GK' && (outNum !== 1 || inNum !== 12)) {
-                        paramErrors.push(`Para sustituir un GK, la salida debe ser 1 y la entrada 12`);
+                } else if (cmd === 'SUB') {
+                    // Probar el nuevo formato primero
+                    let subNewMatch = trimmed.match(subNewRegex);
+                    if (subNewMatch) {
+                        type = 'sustitución (nuevo formato)';
+                        regexValid = true;
+                        const posOut = subNewMatch[1];
+                        const inNum = parseInt(subNewMatch[2]);
+                        const posIn = subNewMatch[3];
+                        const condType = subNewMatch[4];
+                        const posCond = subNewMatch[5];
+
+                        // Verificar que la posición de salida y condición coincidan
+                        if (posOut !== posCond) {
+                            paramErrors.push(`La posición de salida (${posOut}) y la posición de la condición (${posCond}) deben coincidir.`);
+                        }
+
+                        // Verificar que el número entrante esté entre 12 y 16 (ya está en la regex, pero por si acaso)
+                        if (inNum < 12 || inNum > 16) {
+                            paramErrors.push(`Número entrante "${inNum}" inválido (debe ser 12-16)`);
+                        }
+
+                        // Para GK en nuevo formato - solo validar que la posición entrante sea GK
+                        if (posOut === 'GK') {
+                            if (posIn !== 'GK') {
+                                paramErrors.push(`Para sustituir un GK, la posición entrante debe ser GK.`);
+                            }
+                        }
+                    } else if (subRegex.test(trimmed)) {
+                        type = 'sustitución';
+                        regexValid = true;
+                        const outNum = parseInt(parts[1]);
+                        const inNum = parseInt(parts[2]);
+                        const pos = parts[3];
+
+                        if (isNaN(outNum) || outNum < 1 || outNum > 16) paramErrors.push(`Jugador saliente "${parts[1]}" inválido (debe ser 1-16)`);
+                        if (isNaN(inNum) || inNum < 12 || inNum > 16) paramErrors.push(`Jugador entrante "${parts[2]}" inválido (debe ser 12-16)`);
+                        if (outNum === inNum) paramErrors.push('Los valores de salida y entrada no pueden coincidir en la sustitución');
+                        if (!posicionesValidas.includes(pos)) paramErrors.push(`Posición "${pos}" inválida (debe ser GK, DF, DM, MF, AM o FW)`);
+
+                        // Para GK: ya no se exige que outNum sea 1
+                        // Solo se valida que si se sustituye un GK, la posición entrante sea GK
+                        if (pos === 'GK' && parts[3] !== 'GK') {
+                            paramErrors.push(`Para sustituir un GK, la posición entrante debe ser GK.`);
+                        }
                     }
                 } else if (changePosRegex.test(trimmed)) {
                     type = 'cambio de posición';
                     regexValid = true;
                     const num = parseInt(parts[1]);
                     const pos = parts[2];
-                    if (isNaN(num) || num < 2 || num > 11) {
-                        paramErrors.push(`Jugador "${parts[1]}" inválido para CHANGEPOS (debe ser 2-11)`);
-                    }
-                    if (!posicionesValidas.includes(pos)) {
-                        paramErrors.push(`Posición "${pos}" inválida (debe ser GK, DF, DM, MF, AM o FW)`);
-                    }
+                    if (isNaN(num) || num < 2 || num > 11) paramErrors.push(`Jugador "${parts[1]}" inválido para CHANGEPOS (debe ser 2-11)`);
+                    if (!posicionesValidas.includes(pos)) paramErrors.push(`Posición "${pos}" inválida (debe ser GK, DF, DM, MF, AM o FW)`);
                 } else if (changeAggRegex.test(trimmed)) {
                     type = 'cambio de agresividad';
                     regexValid = true;
                     const agg = parseInt(parts[1]);
-                    if (isNaN(agg) || agg < 1 || agg > 20) {
-                        paramErrors.push(`Nivel de agresividad "${parts[1]}" inválido (debe ser 1-20)`);
-                    }
+                    if (isNaN(agg) || agg < 1 || agg > 20) paramErrors.push(`Nivel de agresividad "${parts[1]}" inválido (debe ser 1-20)`);
                 }
 
-                if (regexValid && paramErrors.length === 0) {
-                    return;
-                } else {
+                if (!(regexValid && paramErrors.length === 0)) {
                     let errorMsg = `Sintaxis incorrecta o parámetros inválidos en condicional de ${type || cmd}: ${trimmed}`;
-                    if (paramErrors.length > 0) {
-                        errorMsg += `. Detalles: ${paramErrors.join('; ')}`;
-                    }
+                    if (paramErrors.length > 0) errorMsg += `. Detalles: ${paramErrors.join('; ')}`;
                     errores.push(errorMsg);
-
                     const correctedLine = getLineSuggestions(trimmed);
-                    if (correctedLine) {
-                        errores.push(`<span class="text-black">Sugerencia: ${correctedLine}</span>`);
-                    }
+                    if (correctedLine) errores.push(`<span class="text-black">Sugerencia: ${correctedLine}</span>`);
                 }
             });
 
             if (!hasPKCommand) {
                 errores.push('Debe haber un lanzador de penaltis especificado con "PK: [jugador]".');
+            }
+
+            // Verificación de portero titular si la opción está activada
+            if (noPorterosTitulares && titulares.length > 0 && titulares[0].posicion === 'GK') {
+                const titularGK = getTitularGK(jugadoresPlantilla);
+                if (titularGK && titulares[0].nombre === titularGK.nombre) {
+                    errores.push('No se permite alinear al portero titular en Copa TSM.');
+                }
             }
 
             return {
@@ -1481,7 +1555,14 @@
                 }
                 
                 if (linea.startsWith('PK:')) {
-                    penaltyTaker = linea.substring(3).trim();
+                    // Verificar si hay un espacio después de "PK:"
+                    if (linea.length > 3 && linea[3] !== ' ') {
+                        // Corregir: añadir un espacio después de "PK:"
+                        const correctedPkLine = 'PK: ' + linea.substring(4);
+                        alineacionCorregida[i] = correctedPkLine;
+                        correccionesAplicadas.push('Lanzador de penaltis corregido. Ahora hay un espacio entre "PK" y el nombre del lanzador.');
+                    }
+                    penaltyTaker = linea.substring(4).trim(); // Saltar "PK: " (ahora hay espacio)
                     continue;
                 }
                 
@@ -1729,7 +1810,7 @@
                     const jugadorSugerido = encontrarJugadorSimilar(penaltyTakerCorregido, jugadoresPlantilla);
                     if (jugadorSugerido) {
                         penaltyTakerCorregido = jugadorSugerido;
-                        correccionesAplicadas.push(`Lanzador de penaltis corregido: "${penaltyTaker}" -> "${penaltyTakerCorregido}"`);
+                        correccionesAplicadas.push(`Lanzador de penaltis preservado: "${penaltyTakerCorregido}"`);
                     } else {
                         const delanterosTitulares = titulares.filter(j => j.posicion === 'FW');
                         if (delanterosTitulares.length > 0) {
@@ -2118,13 +2199,8 @@
                     }
                 });
             } else {
-                let startIndex = archivosAcumulados.length;
                 const archivosNoDuplicados = Array.from(files).filter(file => {
-                    if (archivosCargados.has(file.name)) {
-                        alert(`El archivo "${file.name}" ya ha sido cargado anteriormente y será omitido.`);
-                        return false;
-                    }
-                    archivosCargados.add(file.name);
+                    // No filtramos por nombre de archivo, procesamos todos para reemplazar por equipo
                     return true;
                 });
                 
@@ -2132,15 +2208,38 @@
                     return;
                 }
                 
-                archivosAcumulados = [...archivosAcumulados, ...archivosNoDuplicados];
-                archivosNombres = [...archivosNombres, ...archivosNoDuplicados.map(f => f.name)];
-
+                // Procesamos cada archivo
                 for (let j = 0; j < archivosNoDuplicados.length; j++) {
-                    const i = startIndex + j;
                     const file = archivosNoDuplicados[j];
                     const content = await leerArchivo(file);
-                    originalContents[i] = content;
-                    processList.push({ i, content, fileName: file.name, isGenerated: false });
+                    const nombreEquipo = identificarPlantilla(content);
+                    
+                    // Buscar si ya existe una alineación para este equipo
+                    let indiceExistente = -1;
+                    for (let idx in alineacionesActuales) {
+                        if (identificarPlantilla(alineacionesActuales[idx]) === nombreEquipo) {
+                            indiceExistente = parseInt(idx);
+                            break;
+                        }
+                    }
+                    
+                    if (indiceExistente !== -1) {
+                        // Reemplazar la alineación existente
+                        const i = indiceExistente;
+                        originalContents[i] = content;
+                        // Actualizamos el nombre del archivo
+                        archivosNombres[i] = file.name;
+                        // Actualizamos el archivo acumulado
+                        archivosAcumulados[i] = file;
+                        processList.push({ i, content, fileName: file.name, isGenerated: false });
+                    } else {
+                        // Es nuevo
+                        const i = archivosAcumulados.length;
+                        originalContents[i] = content;
+                        archivosNombres[i] = file.name;
+                        archivosAcumulados[i] = file;
+                        processList.push({ i, content, fileName: file.name, isGenerated: false });
+                    }
                 }
             }
 
@@ -2156,7 +2255,7 @@
                             <div class="flex justify-between items-start">
                                 <div class="flex items-center">
                                     <button class="collapse-button mr-2 collapsed" onclick="toggleAlineacion(${i})" title="Plegar/Desplegar alineación">
-                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org2000/svg">
+                                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                                         </svg>
                                     </button>
@@ -2189,7 +2288,7 @@
                 }
 
                 const jugadoresPlantilla = plantillasCargadas[nombreEquipo];
-                const resultadoValidacion = validarAlineacion(content, jugadoresPlantilla);
+                const resultadoValidacion = validarAlineacion(content, jugadoresPlantilla, nombreEquipo);
                 const errores = resultadoValidacion.errores;
 
                 let isCorrected = false;
@@ -2219,7 +2318,7 @@
                     } else {
                         const resultadoCorr = corregirAlineacion(content, jugadoresPlantilla, nombreEquipo);
                         alineacionesActuales[i] = resultadoCorr.alineacion;
-                        const erroresPost = validarAlineacion(resultadoCorr.alineacion, jugadoresPlantilla).errores;
+                        const erroresPost = validarAlineacion(resultadoCorr.alineacion, jugadoresPlantilla, nombreEquipo).errores;
                         
                         const tieneErroresNoCorregibles = 
                             resultadoValidacion.jugadoresRepetidos.length > 0 ||
@@ -2737,6 +2836,9 @@
         });
 
         // Setup drag and drop para alineaciones
+        const dropzone = document.getElementById('dropzone');
+        const fileInput = document.getElementById('fileInput');
+
         dropzone.addEventListener('click', () => fileInput.click());
 
         fileInput.addEventListener('change', (e) => {
